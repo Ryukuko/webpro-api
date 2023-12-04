@@ -16,6 +16,15 @@
 
         function index_get()
         {
+            if ($this->jwt->decode($this->input->request_header()['Authorization']) == false){
+                return $this->response(
+                    array(
+                        'kode' =>'401',
+                        'pesan' => 'signature tidak sesuai',
+                        'data' => []
+                    ), '401'
+                );
+            }
             $id = $this->get('id');
             if ($id == '') {
                 $data = $this->M_Kontak->fetch_all();
